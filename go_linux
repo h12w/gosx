@@ -13,9 +13,13 @@ sub_help(){
     echo ""
 }
   
+PORT=$2
 sub_run(){
     DOCKER_GOPATH=/root/go
-    [[ $PWD =~ ^$GOPATH ]] && SET_WORKDIR="--workdir ${PWD/#$GOPATH/$dockerGoPath}"
+    if [[ $PWD =~ ^$GOPATH ]]; then 
+        SET_WORKDIR="--workdir ${PWD/#$GOPATH/$DOCKER_GOPATH}"
+    fi
+    [[ ! -z $PORT ]]       && SET_PORT="--publish $PORT:$PORT"
     docker run \
 	    --name go_linux \
 	    --rm=true \
@@ -23,7 +27,8 @@ sub_run(){
 	    --tty \
 	    --volume $GOPATH:$DOCKER_GOPATH \
 	    $SET_WORKDIR \
-	    h12w/gosx bash
+	    $SET_PORT \
+	    h12w/gosx bash --init-file /usr/bin/go_run.sh
 }
   
 sub_bash(){

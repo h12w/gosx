@@ -19,6 +19,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		xvfb \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+ADD go_run.sh /usr/bin/
 
-EXPOSE 1000-20000
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
