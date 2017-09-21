@@ -1,0 +1,39 @@
+#!/bin/bash
+
+ProgName=$(basename $0)
+  
+sub_help(){
+    echo "Usage: $ProgName <subcommand> [options]\n"
+    echo "Subcommands:"
+    echo "    run  run h12w/gosx container"
+    echo "    bash start a new bash in the existing h12w/gosx container"
+    echo ""
+    echo "For help with each subcommand run:"
+    echo "$ProgName <subcommand> -h|--help"
+    echo ""
+}
+  
+sub_run(){
+    docker run --name go_linux --rm=true --network host --interactive --tty --volume $HOME/go:/root/go h12w/gosx bash
+}
+  
+sub_bash(){
+    docker exec -it go_linux bash
+}
+  
+subcommand=$1
+case $subcommand in
+    "" | "-h" | "--help")
+        sub_help
+        ;;
+    *)
+        shift
+        sub_${subcommand} $@
+        if [ $? = 127 ]; then
+            echo "Error: '$subcommand' is not a known subcommand." >&2
+            echo "       Run '$ProgName --help' for a list of known subcommands." >&2
+            exit 1
+        fi
+        ;;
+esac
+
