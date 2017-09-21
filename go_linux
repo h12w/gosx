@@ -14,7 +14,16 @@ sub_help(){
 }
   
 sub_run(){
-    docker run --name go_linux --rm=true --network host --interactive --tty --volume $HOME/go:/root/go h12w/gosx bash
+    DOCKER_GOPATH=/root/go
+    [[ $PWD =~ ^$GOPATH ]] && SET_WORKDIR="--workdir ${PWD/#$GOPATH/$dockerGoPath}"
+    docker run \
+	    --name go_linux \
+	    --rm=true \
+	    --interactive \
+	    --tty \
+	    --volume $GOPATH:$DOCKER_GOPATH \
+	    $SET_WORKDIR \
+	    h12w/gosx bash
 }
   
 sub_bash(){
