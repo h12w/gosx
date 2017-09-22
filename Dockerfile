@@ -17,6 +17,7 @@ ENV https_proxy ""
 # apt
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		xvfb \
+		surf \
 	&& rm -rf /var/lib/apt/lists/*
 
 ADD go_run.sh /usr/bin/
