@@ -7,8 +7,8 @@ Installation
 ------------
 
 ```
-go get h12.me/gosx
-cd $GOPATH/src/h12.me/gosx
+go get h12.io/gosx
+cd $GOPATH/src/h12.io/gosx
 ./build_docker.sh
 ln -s go_linux $GOPATH/bin
 
